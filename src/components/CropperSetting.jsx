@@ -71,10 +71,10 @@ const CropperSetting = ({ croppedImages, setCroppedImages, cropWidth, setCropWid
                 <h2 className="text-2xl font-semibold text-accentBlue mb-2">Results</h2>
                 <div className="flex flex-wrap gap-2">
                     {imageURLs.map((url, index) => (
-                        <div className="w-[110px] h-[110px] relative">
+                        <div className="w-max-[110px] h-max-[110px] relative">
                             <button
                                 onClick = {() => handleClose(index)} 
-                                className="rounded-full absolute top-0 right-1.5 w-5 h-5 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition"
+                                className="rounded-full absolute top-0 right-0 w-5 h-5 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition"
                             >
                                 <XMarkIcon className="w-3 h-3 text-gray-600" />
                             </button>
@@ -82,7 +82,7 @@ const CropperSetting = ({ croppedImages, setCroppedImages, cropWidth, setCropWid
                                 key={index} 
                                 src={url} 
                                 alt={`Cropped ${index + 1}`} 
-                                className="flex justify-center items-center justify-items-center max-w-[100px] max-h-[100px] pt-1"
+                                className="flex justify-center items-center justify-items-center max-w-[100px] max-h-[100px] pt-1 pr-2"
                             />
                             
                         </div>
