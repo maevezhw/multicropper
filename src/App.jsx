@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
-import ImageUploader from './components/ImageUploader'
-import ImageCropper from './components/ImageCropper'
+import UploadPage from './components/UploadPage'
 import CropperPage from './components/CropperPage'
+import DownloadPage from './components/DownloadPage'
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 
 function App() {
@@ -14,8 +14,9 @@ function App() {
       <Router>
             <Navbar /> {/* Navbar akan muncul di semua halaman */}
             <Routes>
-                <Route path="/" element={<ImageUploader setImage={setImage} />} />
+                <Route path="/" element={<UploadPage setImage={setImage} />} />
                 <Route path="/crop" element={<CropperPage image={image} croppedImages={croppedImages} setCroppedImages={setCroppedImages} />} />
+                <Route path="/download" element={<DownloadPage croppedImages={croppedImages} />} />
             </Routes>
         </Router>
     </div>

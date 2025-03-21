@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 
-const ImageUploader = ({ setImage }) => {
+const UploadPage = ({ setImage }) => {
     const [fileName, setFileName] = useState("");
     const navigate = useNavigate();
     const [fileLoaded, setFileLoaded] = useState(false);
@@ -56,10 +56,9 @@ const ImageUploader = ({ setImage }) => {
                 {fileName && <p className="mt-2 text-blue-600">{fileName}</p>}
             </div>  
             
-
             <p className="text-md font-normal text-gray-500 mt-4 italic">Support JPG/JPEG, PNG, and WEBP format.</p>
         </section>
     );
 };
 
-export default ImageUploader;
+export default UploadPage;

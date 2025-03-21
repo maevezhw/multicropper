@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import ImageCropper from "./ImageCropper";
 import CropperSetting from "./CropperSetting";
+import { useNavigate } from "react-router-dom";
 
 const CropperPage = ({ image, croppedImages, setCroppedImages }) => {
     const [cropWidth, setCropWidth] = useState(800);
     const [cropHeight, setCropHeight] = useState(800);
     const [aspectRatio, setAspectRatio] = useState(null);
     const cropperRef = useRef(null);
+    const navigate = useNavigate();
 
     // Fungsi untuk menambahkan hasil crop ke state
     const handleAddCrop = () => {
@@ -19,6 +21,10 @@ const CropperPage = ({ image, croppedImages, setCroppedImages }) => {
             setCroppedImages((prev) => [...prev, blob]); // Simpan hasil crop sebagai Blob
         }, "image/png");
     };
+
+    const processFinishCrop = () => {
+        navigate("/download"); // Beri jeda biar state sempat di-update
+    }
 
     return (
         <div id = "cropper-main-container" className="flex items-center justify-between h-screen w-screen max-w-6xl bg-gradient-to-b from-[#F8FAFC] to-bgBlue mx-auto gap-6">
@@ -40,7 +46,7 @@ const CropperPage = ({ image, croppedImages, setCroppedImages }) => {
                     <button id = "add-crop" onClick={handleAddCrop} className="w-full px-4 py-6 bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition">
                         Add Crop
                     </button>
-                    <button id = "finish-crop" className="mt-2 w-full px-4 py-6 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition">
+                    <button id = "finish-crop" onClick = {processFinishCrop} className="mt-2 w-full px-4 py-6 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition">
                         Finish
                     </button>
                 </div>
