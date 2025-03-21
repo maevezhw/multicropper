@@ -9,7 +9,7 @@ const UploadPage = ({ setImage }) => {
 
     // Konfigurasi Dropzone
     const { getRootProps, getInputProps } = useDropzone({
-        accept: "image/*",
+        accept: {"image/*": [".jpg", ".jpeg", ".png", ".webp"]},
         multiple: false,
         onDrop: (acceptedFiles) => {
             const file = acceptedFiles[0];
@@ -39,7 +39,7 @@ const UploadPage = ({ setImage }) => {
     return (
         <section id="upload" className="h-screen flex items-center justify-center bg-gradient-to-b from-[#F8FAFC] to-bgBlue flex-col">
             <h1 className="text-7xl font-bold text-textDark mb-5">MultiCropper</h1>
-            <h3 className="text-2xl font-normal text-textDark mb-3">Crop many objects just in 1 click!</h3>
+            <h3 className="text-2xl font-normal text-textDark mb-3">Crop multiple areas from a single image with ease.</h3>
 
             {/* <div {...getRootProps()} className="relative cursor-pointer mt-10">
                 <input {...getInputProps()} className="hidden" />
@@ -50,7 +50,7 @@ const UploadPage = ({ setImage }) => {
             </div>
 
             <p className="text-gray-500 text-sm mt-2">or drop images here</p> */}
-            <div {...getRootProps()} className={`${dropzoneStyle} mt-10`}>
+            <div {...getRootProps()} className={`${dropzoneStyle} mt-5`}>
                 <input {...getInputProps()} />
                 <p className="text-gray-500 text-lg">Drag & drop an image here, or click to select</p>
                 {fileName && <p className="mt-2 text-blue-600">{fileName}</p>}
