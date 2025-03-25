@@ -3,13 +3,14 @@ import ImageCropper from "./ImageCropper";
 import CropperSetting from "./CropperSetting";
 import { useNavigate } from "react-router-dom";
 
-const CropperPage = ({ image, croppedImages, setCroppedImages }) => {
+const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
     const [cropWidth, setCropWidth] = useState(800);
     const [cropHeight, setCropHeight] = useState(800);
     const [aspectRatio, setAspectRatio] = useState(null);
     const cropperRef = useRef(null);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("manual-crop");
+    const [predictedBoxes, setPredictedBoxes] = useState([]);
 
     // Fungsi untuk menambahkan hasil crop ke state
     const handleAddCrop = () => {
@@ -28,8 +29,8 @@ const CropperPage = ({ image, croppedImages, setCroppedImages }) => {
     }
 
     return (
-        <div id = "cropper-main-container" className="flex items-center justify-between h-screen w-screen max-w-6xl  mx-auto gap-6">
-          {image && <ImageCropper image={image} cropperRef = {cropperRef} cropWidth={cropWidth} setCropWidth={setCropWidth} cropHeight={cropHeight} setCropHeight={setCropHeight} aspectRatio={aspectRatio} />}
+        <div id = "cropper-main-container" className="flex items-center justify-between h-screen w-screen max-w-6xl mx-auto gap-6">
+          {image && <ImageCropper image={image} cropperRef = {cropperRef} cropWidth={cropWidth} setCropWidth={setCropWidth} cropHeight={cropHeight} setCropHeight={setCropHeight} aspectRatio={aspectRatio} activeTab={activeTab} predictedBoxes={predictedBoxes}/>}
           
           <div id = "cropper-setting" className="mt-5 w-1/2 max-h-[600px] flex flex-col items-center">
                 <div id = "cropper-choices" className="w-full flex flex-row">
@@ -50,15 +51,18 @@ const CropperPage = ({ image, croppedImages, setCroppedImages }) => {
                         Use AI
                     </button>
                 </div>
+
                 <CropperSetting
+                    image = {imageFile}
                     croppedImages={croppedImages}
                     setCroppedImages={setCroppedImages}
                     cropWidth={cropWidth}
                     setCropWidth={setCropWidth}
                     cropHeight={cropHeight}
                     setCropHeight={setCropHeight}
-                    aspectRatio={aspectRatio}
                     setAspectRatio={setAspectRatio}
+                    activeTab={activeTab}
+                    setPredictedBoxes={setPredictedBoxes}
                 />
 
                 <div id = "cropper-button" className="w-full flex flex-col gap-2 mt-5">

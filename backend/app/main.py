@@ -6,14 +6,25 @@ import torch
 from torchvision.ops import box_convert
 import supervision as sv
 from GroundingDINO.groundingdino.util.inference import load_model, load_image, predict
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Ganti dengan URL frontend kamu
+    allow_credentials=True,
+    allow_methods=["*"],  # Atau tentukan metode yang diizinkan, seperti ["GET", "POST"]
+    allow_headers=["*"],  # Atau tentukan header yang diizinkan
+)
 
 # Load model
 HOME = os.getcwd()
 CONFIG_PATH = os.path.join(HOME, "GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py")
 WEIGHTS_PATH = os.path.join(HOME, "weights", "groundingdino_swint_ogc.pth")
-model = load_model(CONFIG_PATH, WEIGHTS_PATH)
+
+model = load_model(CONFIG_PATH, WEIGHTS_PATH, "cpu")
 
 @app.post("/predict/")
 async def predict_image(file: UploadFile = File(...), prompt: str = Form(...)):
@@ -33,15 +44,12 @@ async def predict_image(file: UploadFile = File(...), prompt: str = Form(...)):
             image=image,
             caption=prompt,
             box_threshold=0.35,
-            text_threshold=0.25
+            text_threshold=0.25,
+            device = "cpu"
         )
 
-        # Konversi boxes ke format xywh
-        boxes_scaled = boxes * torch.Tensor([w, h, w, h])  # Sesuaikan dengan ukuran gambar
-        xywh_boxes = box_convert(boxes=boxes_scaled, in_fmt="cxcywh", out_fmt="xywh").numpy()
-
         # Format hasil prediksi
-        results = [{"box": box.tolist(), "phrase": phrase} for box, phrase in zip(xywh_boxes, phrases)]
+        results = [{"box": box.tolist(), "phrase": phrase} for box, phrase in zip(boxes, phrases)]
 
         # Hapus file gambar setelah digunakan
         os.remove(image_path)
