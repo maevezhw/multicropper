@@ -27,12 +27,12 @@ const DownloadButton = ({ croppedImages }) => {
     }
 
     return (
-        <div id = "download-main-container" className="h-screen flex items-center justify-center bg-gradient-to-b from-[#F8FAFC] to-bgBlue flex-col w-screen max-w-6xl mx-auto gap-6">
+        <div id = "download-main-container" className="h-screen flex items-center justify-center flex-col w-screen max-w-6xl mx-auto gap-6">
             <h1 className="text-4xl font-bold text-textDark mb-5">Your image has been cropped!</h1>
             <button id = "download-button" onClick={downloadZip} className="w-1/3 px-4 py-6 bg-accentBlue text-white font-semibold rounded hover:bg-blue-600 transition"> 
                 Download ZIP 
             </button>
-            <button id = "restart-button" onClick={handleRestart} className="w-1/3 px-4 py-3 bg-transparent text-gray-400 font-normal rounded hover:text-accentBlue hover:font-semibold transition border-1 border-gray-400">
+            <button id = "restart-button" onClick={handleRestart} className="w-1/3 px-4 py-3 bg-transparent text-gray-500 font-normal rounded hover:text-accentBlue hover:font-semibold transition border-1 border-gray-400">
                 Crop another image
             </button>
 

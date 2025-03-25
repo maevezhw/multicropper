@@ -41,7 +41,7 @@ const CropperSetting = ({ croppedImages, setCroppedImages, cropWidth, setCropWid
     };
 
     return (
-        <div id="cropper-setting-container" className="bg-white border border-gray-200 rounded-xl shadow-lg p-8 h-[500px] overflow-y-auto w-full">
+        <div id="cropper-setting-container" className="bg-white border border-t-0 border-gray-200 rounded-b-xl shadow-lg px-8 pb-8 pt-5 max-h-[500px] overflow-y-auto w-full">
             <h2 className="text-2xl font-semibold text-accentBlue mb-3">Resize Crop Box</h2>
             <div id="cropper-setting-size" className="grid grid-cols-2 gap-4 w-full">
                 <div className="flex flex-row justify-between items-center">
@@ -67,11 +67,11 @@ const CropperSetting = ({ croppedImages, setCroppedImages, cropWidth, setCropWid
 
             <AspectRatioSelector setAspectRatio={setAspectRatio} />
 
-            <div id="cropper-show" className="mt-5">
+            {imageURLs.length > 0 && <div id="cropper-show" className="mt-5">
                 <h2 className="text-2xl font-semibold text-accentBlue mb-2">Results</h2>
                 <div className="flex flex-wrap gap-2">
                     {imageURLs.map((url, index) => (
-                        <div className="w-max-[110px] h-max-[110px] relative">
+                        <div className="max-w-[110px] max-h-[110px] relative">
                             <button
                                 onClick = {() => handleClose(index)} 
                                 className="rounded-full absolute top-0 right-0 w-5 h-5 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition"
@@ -88,9 +88,8 @@ const CropperSetting = ({ croppedImages, setCroppedImages, cropWidth, setCropWid
                         </div>
                     ))}
                     
-                    
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };

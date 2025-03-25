@@ -14,7 +14,7 @@ const Navbar = () => {
 
                 <ul className="flex space-x-10">
                     {navItems.map((item, index) => (
-                        <li key={index} className="text-textDark font-medium hover:bg-accentBlue hover:text-bgWhite hover:rounded-full px-3 py-1">
+                        <li key={index} className="text-textDark font-medium hover:bg-accentBlue hover:text-bgWhite hover:rounded-full px-3 py-1 ">
                             <a href={item.href}>{item.label}</a>
                         </li>
                     ))}

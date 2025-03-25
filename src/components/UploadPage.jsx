@@ -52,7 +52,7 @@ const UploadPage = ({ setImage }) => {
             <p className="text-gray-500 text-sm mt-2">or drop images here</p> */}
             <div {...getRootProps()} className={`${dropzoneStyle} mt-5`}>
                 <input {...getInputProps()} />
-                <p className="text-gray-500 text-lg">Drag & drop an image here, or click to select</p>
+                <p className="text-gray-500 text-lg"><span className="text-accentBlue font-semibold">Drag & drop</span> an image here, or <span className="text-accentBlue font-semibold">click</span> to select</p>
                 {fileName && <p className="mt-2 text-blue-600">{fileName}</p>}
             </div>  
             

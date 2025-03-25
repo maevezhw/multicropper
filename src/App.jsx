@@ -10,7 +10,7 @@ function App() {
   const [croppedImages, setCroppedImages] = useState([]);
   
   return (
-    <div className='bg-gradient-to-b from-[#F8FAFC] to-bgBlue h-screen'>
+    <div className='bg-gradient-to-b to-bgBlue h-screen'>
       <Router>
             <Navbar /> {/* Navbar akan muncul di semua halaman */}
             <Routes>
