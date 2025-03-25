@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 
-const UploadPage = ({ setImage }) => {
+const UploadPage = ({ setImage, setImageFile }) => {
     const [fileName, setFileName] = useState("");
     const navigate = useNavigate();
     const [fileLoaded, setFileLoaded] = useState(false);
@@ -16,6 +16,8 @@ const UploadPage = ({ setImage }) => {
             if (!file) return;
 
             setFileName(file.name); // Simpan nama file
+            setImageFile(file); // Simpan file
+            
             const reader = new FileReader();
             reader.onload = (e) => {
                 setImage(e.target.result);

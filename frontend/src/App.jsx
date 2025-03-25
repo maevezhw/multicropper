@@ -8,14 +8,15 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 function App() {
   const [image, setImage] = useState(null);
   const [croppedImages, setCroppedImages] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
   
   return (
     <div className='bg-gradient-to-b to-bgBlue h-screen'>
       <Router>
             <Navbar /> {/* Navbar akan muncul di semua halaman */}
             <Routes>
-                <Route path="/" element={<UploadPage setImage={setImage} />} />
-                <Route path="/crop" element={<CropperPage image={image} croppedImages={croppedImages} setCroppedImages={setCroppedImages} />} />
+                <Route path="/" element={<UploadPage setImage={setImage} setImageFile={setImageFile}/>} />
+                <Route path="/crop" element={<CropperPage image={image} imageFile = {imageFile} croppedImages={croppedImages} setCroppedImages={setCroppedImages} />} />
                 <Route path="/download" element={<DownloadPage croppedImages={croppedImages} />} />
             </Routes>
         </Router>
