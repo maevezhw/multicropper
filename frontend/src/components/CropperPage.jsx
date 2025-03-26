@@ -11,6 +11,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("manual-crop");
     const [predictedBoxes, setPredictedBoxes] = useState([]);
+    const [boundingBoxes, setBoundingBoxes] = useState([]);
 
     // Fungsi untuk menambahkan hasil crop ke state
     const handleAddCrop = () => {
@@ -30,7 +31,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
 
     return (
         <div id = "cropper-main-container" className="flex items-center justify-between h-screen w-screen max-w-6xl mx-auto gap-6">
-          {image && <ImageCropper image={image} cropperRef = {cropperRef} cropWidth={cropWidth} setCropWidth={setCropWidth} cropHeight={cropHeight} setCropHeight={setCropHeight} aspectRatio={aspectRatio} activeTab={activeTab} predictedBoxes={predictedBoxes}/>}
+          {image && <ImageCropper image={image} cropperRef = {cropperRef} cropWidth={cropWidth} setCropWidth={setCropWidth} cropHeight={cropHeight} setCropHeight={setCropHeight} aspectRatio={aspectRatio} activeTab={activeTab} predictedBoxes={predictedBoxes} setBoundingBoxes={setBoundingBoxes}/>}
           
           <div id = "cropper-setting" className="mt-5 w-1/2 max-h-[600px] flex flex-col items-center">
                 <div id = "cropper-choices" className="w-full flex flex-row">
@@ -54,6 +55,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
 
                 <CropperSetting
                     image = {imageFile}
+                    cropperRef={cropperRef}
                     croppedImages={croppedImages}
                     setCroppedImages={setCroppedImages}
                     cropWidth={cropWidth}
@@ -63,12 +65,14 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
                     setAspectRatio={setAspectRatio}
                     activeTab={activeTab}
                     setPredictedBoxes={setPredictedBoxes}
+                    boundingBoxes={boundingBoxes}
                 />
 
                 <div id = "cropper-button" className="w-full flex flex-col gap-2 mt-5">
+                    { activeTab === "manual-crop" && 
                     <button id = "add-crop" onClick={handleAddCrop} className="w-full px-4 py-6 bg-white/60 backdrop-blur-lg text-textDark font-semibold rounded hover:text-accentBlue hover:font-semibold transition border-1 border-gray-300 cursor-pointer shadow-md">
                         Add Crop
-                    </button>
+                    </button> }
                     <button id = "finish-crop" onClick = {processFinishCrop} className="mt-2 w-full px-4 py-6 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition cursor-pointer shadow-md">
                         Finish
                     </button>

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 
-const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, setCropHeight, aspectRatio, activeTab, predictedBoxes }) => {
+const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, setCropHeight, aspectRatio, activeTab, predictedBoxes, setBoundingBoxes }) => {
     const imageRef = useRef(null); // Referensi ke elemen <img>
     const cropBoxDataRef = useRef(null);
     const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
@@ -30,8 +30,6 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
     // Contoh bounding box dari AI (x, y, width, height)
     const boundingBoxes = convertToPixelCoordinates(predictedBoxes, imgSize.width, imgSize.height);
 
-    console.log("Bounding Boxes:", boundingBoxes);
-
     function isBoxCompletelyCovered(box, otherBox) {
         return (
             otherBox.left >= box.left &&
@@ -45,7 +43,6 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
     useEffect(() => {
         if (!imageRef.current) return;
 
-        // Hancurkan instance sebelumnya sebelum membuat yang baru
         if (cropperRef.current) {
             cropperRef.current.destroy();
         }
@@ -73,7 +70,7 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
                 setImgSize({ width, height });
 
                 const canvasEl = document.querySelector('.cropper-canvas');
-    
+
                 if (canvasEl) {
                     const transformValue = getComputedStyle(canvasEl).transform;
                     
@@ -95,9 +92,25 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
             }
 
         });
+    
+        return () => {
+            cropperRef.current?.destroy();
+        };
+    }, [image]);
 
-        return () => cropperRef.current?.destroy();
-    }, [image, activeTab]);
+    useEffect(() => {
+        if (!cropperRef.current) return;
+    
+        const adjustedBoxes = boundingBoxes.map((box) => ({
+            left: box.left + translate.x,
+            top: box.top + translate.y,
+            width: box.width,
+            height: box.height,
+        }));
+        console.log("Adjusted Boxes:", adjustedBoxes);
+        setBoundingBoxes(adjustedBoxes); // Update state dengan bounding box yang sudah dikoreksi
+    
+    }, [translate, predictedBoxes]); 
 
     // Update ukuran crop box jika nilai cropWidth / cropHeight berubah
     useEffect(() => {

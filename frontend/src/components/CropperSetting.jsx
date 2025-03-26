@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import AspectRatioSelector from "./AspectRatioSelector";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { fetchPrediction } from "../api/cropAI";
 
-const CropperSetting = ({ image, croppedImages, setCroppedImages, cropWidth, setCropWidth, cropHeight, setCropHeight, setAspectRatio, activeTab, setPredictedBoxes}) => {
+const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cropWidth, setCropWidth, cropHeight, setCropHeight, setAspectRatio, activeTab, setPredictedBoxes, boundingBoxes}) => {
     const [localWidth, setLocalWidth] = useState(cropWidth);
     const [localHeight, setLocalHeight] = useState(cropHeight);
     const [imageURLs, setImageURLs] = useState([]);
@@ -32,6 +32,7 @@ const CropperSetting = ({ image, croppedImages, setCroppedImages, cropWidth, set
         if (!croppedImages.length) return;
         const urls = croppedImages.map(blob => URL.createObjectURL(blob));
         setImageURLs(urls);
+        console.log(imageURLs);
         return () => urls.forEach(url => URL.revokeObjectURL(url));
     }, [croppedImages]);
 
@@ -61,7 +62,52 @@ const CropperSetting = ({ image, croppedImages, setCroppedImages, cropWidth, set
         } catch (error) {
           alert("Gagal mendapatkan prediksi: " + error.message);
         }
-      };
+       
+    };
+
+    useEffect(() => {
+        if (!cropperRef.current || activeTab == 'manual-crop') return;
+
+        const newCroppedImages = [];
+        console.log("useEffect dipanggil");
+
+        const processCrops = async () => {
+    
+            for (let i = 0; i < boundingBoxes.length; i++) {
+                const box = boundingBoxes[i];
+    
+                // Update ukuran CropBox
+                cropperRef.current.setCropBoxData({
+                    left: box.left,
+                    top: box.top,
+                    width: box.width,
+                    height: box.height,
+                });
+    
+                // Tunggu agar CropBox benar-benar terupdate
+                await new Promise((resolve) => setTimeout(resolve, 100));
+    
+                // Ambil hasil crop
+                const croppedCanvas = cropperRef.current.getCroppedCanvas();
+                if (!croppedCanvas) continue;
+    
+                croppedCanvas.toBlob((blob) => {
+                    newCroppedImages.push(blob);
+    
+                    // Jika sudah semua, update state
+                    if (newCroppedImages.length === boundingBoxes.length) {
+                        setCroppedImages((prev) => [...prev, ...newCroppedImages]);
+                    }
+                }, "image/png");
+
+                console.log("Last Cropped Images:", newCroppedImages);
+            }
+        };
+    
+        processCrops(); 
+    
+    }, [boundingBoxes]); // Akan jalan ketika cropperRefs di-update
+    
 
     return (
         <div id="cropper-setting-container" className="bg-white border border-t-0 border-gray-200 rounded-b-xl shadow-lg px-8 pb-8 pt-5 max-h-[500px] overflow-y-auto w-full">
@@ -119,7 +165,7 @@ const CropperSetting = ({ image, croppedImages, setCroppedImages, cropWidth, set
                 <>
                     <h2 className="text-2xl font-semibold text-accentBlue mb-3">Input Prompt</h2>
                     <div id="cropper-setting-size" className="w-full">
-                        <form onSubmit={handlePromptSubmit} className="flex flex-row justify-between gap-3 items-center">
+                        <form onSubmit={handlePromptSubmit} className="flex flex-row justify-between gap-3 items-center cursor-pointer">
                             <input
                                 type = "text"
                                 placeholder="Enter prompt"
