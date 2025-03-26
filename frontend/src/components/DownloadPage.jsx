@@ -14,7 +14,7 @@ const DownloadButton = ({ croppedImages }) => {
 
         // Tambahkan setiap hasil crop ke dalam ZIP
         croppedImages.forEach((blob, index) => {
-            zip.file(`cropped_${index + 1}.png`, blob);
+            zip.file(`cropped_${index + 1}.jpeg`, blob);
         });
 
         // Generate ZIP dan unduh
