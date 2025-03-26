@@ -155,8 +155,8 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
                                         top: `${box.top}px`,
                                         width: `${box.width}px`,
                                         height: `${box.height}px`,
-                                        zIndex: 10,
-                                        pointerEvents: isCovered ? "none" : "auto", // Kalau ketutupan total, bisa klik yang di bawahnya
+                                        zIndex: isCovered ? 5 : 10,
+                                        pointerEvents: "auto" // Kalau ketutupan total, bisa klik yang di bawahnya
                                     }}
                                 />
                             );
