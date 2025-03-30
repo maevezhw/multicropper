@@ -28,6 +28,7 @@ git lfs install
 git lfs pull
 
 pip install torch==2.5.1 torchvision==0.20.1
+git submodule update --init --recursive
 pip install -r requirements.txt
 
 # Jalankan server
