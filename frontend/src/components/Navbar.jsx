@@ -7,17 +7,17 @@ const Navbar = () => {
     ]
 
     return (
-        <nav className="z-50 fixed top-4 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-full px-8 py-4 flex justify-center items-center w-screen max-w-6xl">
-            <div className="container mx-auto flex justify-between items-center">
-                <a href="/" className="text-textDark font-bold text-2xl">MultiCropper</a>
+        <nav className="z-50 fixed bg-white w-full px-8 py-2 flex justify-center items-center h-16 shadow-md">
+            <div className="container mx-auto flex justify-center items-center">
+                <a href="/" className="text-accentBlue font-bold text-2xl">MultiCropper</a>
 
-                <ul className="flex space-x-10">
+                {/* <ul className="flex space-x-10">
                     {navItems.map((item, index) => (
                         <li key={index} className="text-textDark font-medium hover:bg-accentBlue hover:text-bgWhite hover:rounded-full px-3 py-1 ">
                             <a href={item.href}>{item.label}</a>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
         </nav>
     );

@@ -2,16 +2,16 @@ import React, { useRef, useEffect, useState } from "react";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 
-const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, setCropHeight, aspectRatio, activeTab, predictedBoxes, setBoundingBoxes }) => {
+const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, activeTab, predictedBoxes, setBoundingBoxes, selectedBox, setSelectedBox }) => {
     const imageRef = useRef(null); // Referensi ke elemen <img>
     const cropBoxDataRef = useRef(null);
     const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
     const [translate, setTranslate] = useState({ x: 0, y: 0 });
-    const [selectedBox, setSelectedBox] = useState(null);
 
     // Fungsi untuk mendeteksi klik di dalam bounding box
     const handleClick = (index) => {
         setSelectedBox(boundingBoxes[index]); // Set bounding box yang dipilih
+        console.log("Selected Box:", boundingBoxes[index]);
     };
 
     function convertToPixelCoordinates(boxes, imgWidth, imgHeight) {
@@ -50,19 +50,23 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
         cropperRef.current = new Cropper(imageRef.current, {
             viewMode: 1,
             background: false,
-            autoCropArea: 1,
-            movable: true,
+            autoCropArea: 0.4,
+            movable: false,
             rotatable: false,
-            zoomable: true,
+            zoomable: false,
             cropBoxResizable: true,
             cropBoxMovable: true,
-            dragMode: "move",
+            dragMode: "crop",
             multiple: true,
             crop() {
                 if (!cropperRef.current) return;
-                const cropBox = cropperRef.current.getCropBoxData();
-                setCropWidth(cropBox.width);
-                setCropHeight(cropBox.height);
+                const {width, height} = cropperRef.current.getCropBoxData();
+                setCropSize(prev => {
+                    if (prev.width === width && prev.height === height) {
+                        return prev; // Tidak update state jika ukuran sama
+                    }
+                    return { width, height };
+                });
             },
 
             ready() {
@@ -117,10 +121,10 @@ const ImageCropper = ({ image, cropperRef, cropWidth, setCropWidth, cropHeight, 
         if (!cropperRef.current) return;
 
         cropperRef.current.setCropBoxData({
-            width: cropWidth,
-            height: cropHeight,
+            width: cropSize.width,
+            height: cropSize.height,
         });
-    }, [cropWidth, cropHeight]);
+    }, [cropSize]);
 
     // Update aspect ratio ketika berubah
     useEffect(() => {

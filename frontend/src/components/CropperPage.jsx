@@ -2,17 +2,42 @@ import React, { useState, useEffect, useRef } from "react";
 import ImageCropper from "./ImageCropper";
 import CropperSetting from "./CropperSetting";
 import { useNavigate } from "react-router-dom";
+import ConfirmBeforeUnload from "./ConfirmBeforeUnload";
+import LoadingModal from "./LoadingModal";
+import ErrorModal from "./ErrorModal";
 
-const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
-    const [cropWidth, setCropWidth] = useState(800);
-    const [cropHeight, setCropHeight] = useState(800);
+const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppedNames, setCroppedNames }) => {
+    const [cropSize, setCropSize] = useState({width: 800, height: 800});
     const [aspectRatio, setAspectRatio] = useState(null);
     const cropperRef = useRef(null);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("manual-crop");
     const [predictedBoxes, setPredictedBoxes] = useState([]);
     const [boundingBoxes, setBoundingBoxes] = useState([]);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [error, setError] = useState(false);
+    const [selectedBox, setSelectedBox] = useState(null);
 
+    useEffect(() => {
+        setCroppedImages([]);
+        setCroppedNames([]);
+    }, []); // Dependency array kosong agar hanya jalan sekali    
+
+    useEffect(() => {
+        const fromUpload = sessionStorage.getItem("fromUpload");
+
+        if (!fromUpload) {
+            navigate("/", { replace: true }); // Redirect ke UploadPage kalau akses langsung
+        }
+
+    }, [navigate]);
+
+    useEffect(() => {
+        if (!image) {
+            navigate("/", { replace: true }); // Redirect ke UploadPage kalau tidak ada gambar
+        }
+    }, [image]);
+    
     // Fungsi untuk menambahkan hasil crop ke state
     const handleAddCrop = () => {
         if (!cropperRef.current) return;
@@ -22,16 +47,38 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
 
         croppedCanvas.toBlob((blob) => {
             setCroppedImages((prev) => [...prev, blob]); // Simpan hasil crop sebagai Blob
-        }, "image/png");
+        }, "image/jpeg");
     };
 
     const processFinishCrop = () => {
-        navigate("/download"); // Beri jeda biar state sempat di-update
+        if (croppedImages.length === 0) {
+            setError(true);
+            return;
+        }
+        setTimeout(() => {
+            sessionStorage.setItem("fromCrop", "true"); // Tandai user datang dari CropPage
+            navigate("/download");
+        }, 100);
+
+        sessionStorage.removeItem("fromUpload");
     }
 
     return (
         <div id = "cropper-main-container" className="flex items-center justify-between h-screen w-screen max-w-6xl mx-auto gap-6">
-          {image && <ImageCropper image={image} cropperRef = {cropperRef} cropWidth={cropWidth} setCropWidth={setCropWidth} cropHeight={cropHeight} setCropHeight={setCropHeight} aspectRatio={aspectRatio} activeTab={activeTab} predictedBoxes={predictedBoxes} setBoundingBoxes={setBoundingBoxes}/>}
+          <ConfirmBeforeUnload />
+          {image && 
+          <ImageCropper 
+            image={image} 
+            cropperRef = {cropperRef} 
+            cropSize = {cropSize}
+            setCropSize = {setCropSize}
+            aspectRatio={aspectRatio} 
+            activeTab={activeTab} 
+            predictedBoxes={predictedBoxes} 
+            setBoundingBoxes={setBoundingBoxes} 
+            selectedBox={selectedBox}
+            setSelectedBox={setSelectedBox}/>
+        }
           
           <div id = "cropper-setting" className="mt-5 w-1/2 max-h-[600px] flex flex-col items-center">
                 <div id = "cropper-choices" className="w-full flex flex-row">
@@ -58,14 +105,18 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
                     cropperRef={cropperRef}
                     croppedImages={croppedImages}
                     setCroppedImages={setCroppedImages}
-                    cropWidth={cropWidth}
-                    setCropWidth={setCropWidth}
-                    cropHeight={cropHeight}
-                    setCropHeight={setCropHeight}
+                    cropSize={cropSize}
+                    setCropSize={setCropSize}
                     setAspectRatio={setAspectRatio}
                     activeTab={activeTab}
                     setPredictedBoxes={setPredictedBoxes}
                     boundingBoxes={boundingBoxes}
+                    setBoundingBoxes={setBoundingBoxes}
+                    croppedNames={croppedNames}
+                    setCroppedNames={setCroppedNames}
+                    setIsProcessing={setIsProcessing}
+                    setError={setError}
+                    setSelectedBox={setSelectedBox}
                 />
 
                 <div id = "cropper-button" className="w-full flex flex-col gap-2 mt-5">
@@ -77,8 +128,11 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages }) => {
                         Finish
                     </button>
                 </div>
+
             </div>
-          
+
+            {isProcessing && <LoadingModal isOpen={isProcessing} />}
+            {error && <ErrorModal isOpen={error} message="You haven't cropped any part of the image yet. Please crop before downloading." onClose={() => setError(false)} />}
         </div>
     );
 };

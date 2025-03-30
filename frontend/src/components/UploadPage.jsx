@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 
 const UploadPage = ({ setImage, setImageFile }) => {
-    const [fileName, setFileName] = useState("");
+    
     const navigate = useNavigate();
     const [fileLoaded, setFileLoaded] = useState(false);
+
+    const handleNext = () => {
+        sessionStorage.setItem("fromUpload", "true"); // Tandai user datang dari CropPage
+        navigate("/crop");
+    };
 
     // Konfigurasi Dropzone
     const { getRootProps, getInputProps } = useDropzone({
@@ -15,7 +20,6 @@ const UploadPage = ({ setImage, setImageFile }) => {
             const file = acceptedFiles[0];
             if (!file) return;
 
-            setFileName(file.name); // Simpan nama file
             setImageFile(file); // Simpan file
 
             const reader = new FileReader();
@@ -30,7 +34,7 @@ const UploadPage = ({ setImage, setImageFile }) => {
     useEffect(() => {
         if (fileLoaded) {
             setTimeout(() => {
-                navigate("/crop"); // Beri jeda biar state sempat di-update
+                handleNext(); // Beri jeda biar state sempat di-update
             }, 100);
         }
     }, [fileLoaded, navigate]);
@@ -46,7 +50,6 @@ const UploadPage = ({ setImage, setImageFile }) => {
             <div {...getRootProps()} className={`${dropzoneStyle} mt-5`}>
                 <input {...getInputProps()} />
                 <p className="text-gray-500 text-lg"><span className="text-accentBlue font-semibold">Drag & drop</span> an image here, or <span className="text-accentBlue font-semibold">click</span> to select</p>
-                {fileName && <p className="mt-2 text-blue-600">{fileName}</p>}
             </div>  
             
             <p className="text-md font-normal text-gray-500 mt-4 italic">Support JPG/JPEG, PNG, and WEBP format.</p>
