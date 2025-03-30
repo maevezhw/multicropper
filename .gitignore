@@ -22,4 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-backend/app/weights/groundingdino_swint_ogc.pth
