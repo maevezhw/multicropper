@@ -27,6 +27,7 @@ apt-get update && apt-get install -y git-lfs
 git lfs install
 git lfs pull
 
+pip install torch==2.5.1 torchvision==0.20.1
 pip install -r requirements.txt
 
 # Jalankan server
