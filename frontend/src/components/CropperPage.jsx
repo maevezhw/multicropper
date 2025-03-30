@@ -119,7 +119,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
                     setSelectedBox={setSelectedBox}
                 />
 
-                <div id = "cropper-button" className="w-full flex flex-col gap-2 mt-5">
+                <div id = "cropper-button" className="w-full flex flex-col gap-2 mt-5 pr-5">
                     { activeTab === "manual-crop" && 
                     <button id = "add-crop" onClick={handleAddCrop} className="w-full px-4 py-6 bg-white/60 backdrop-blur-lg text-textDark font-semibold rounded hover:text-accentBlue hover:font-semibold transition border-1 border-gray-300 cursor-pointer shadow-md">
                         Add Crop
