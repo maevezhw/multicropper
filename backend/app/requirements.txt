@@ -17,7 +17,6 @@ fastapi==0.115.12
 filelock==3.17.0
 fonttools==4.56.0
 fsspec==2025.2.0
--e git+https://github.com/IDEA-Research/GroundingDINO.git@856dde20aee659246248e20734ef9ba5214f5e44#egg=groundingdino
 h11==0.14.0
 huggingface-hub==0.29.1
 idna==3.10
