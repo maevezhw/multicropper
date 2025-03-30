@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
+
+# Gunakan Python system-level untuk install pip dulu
+/usr/bin/python3 -m ensurepip --default-pip
+/usr/bin/python3 -m pip install --upgrade pip setuptools wheel
+
+# Paksa masuk virtual environment
+if [ -d "/opt/render/project/src/.venv" ]; then
+    source /opt/render/project/src/.venv/bin/activate
+fi
+
+# Debugging
+python --version
+which python
+pip --version
+which pip
+
 set -eux  # Stop script jika terjadi error
 
 cd backend/app
