@@ -4,6 +4,7 @@ import { FaUpload, FaCropAlt, FaDownload, FaMagic } from "react-icons/fa";
 import UploadPage from "./UploadPage";
 import ScrollReveal from "scrollreveal";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 
 const LandingPage = ({ setImage, setImageFile }) => {
     const navigate = useNavigate();
@@ -71,8 +72,9 @@ const LandingPage = ({ setImage, setImageFile }) => {
                     Start Cropping
                 </button>
             </div>
-            
         </section>
+
+        <Footer /> 
         </div>
     );
 }
