@@ -3,11 +3,11 @@
 set -eux  # Stop script jika terjadi error
 
 # Install Git LFS
-apt-get update && apt-get install -y git-lfs
+# apt-get update && apt-get install -y git-lfs
 
-# Pull LFS files (download weights)
-git lfs install
-git lfs pull
+# # Pull LFS files (download weights)
+# git lfs install
+# git lfs pull
 
 # Jalankan server
 uvicorn main:app --host 0.0.0.0 --port 8000
