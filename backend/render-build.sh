@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eux  # Stop script jika terjadi error
 
+cd backend/app
+
 # Install Git LFS
 apt-get update && apt-get install -y git-lfs
 
