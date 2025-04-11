@@ -75,6 +75,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
             aspectRatio={aspectRatio} 
             activeTab={activeTab} 
             predictedBoxes={predictedBoxes} 
+            // boundingBoxes={boundingBoxes}
             setBoundingBoxes={setBoundingBoxes} 
             selectedBox={selectedBox}
             setSelectedBox={setSelectedBox}/>

@@ -27,8 +27,11 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
         });
     }
 
-    // Contoh bounding box dari AI (x, y, width, height)
-    const boundingBoxes = convertToPixelCoordinates(predictedBoxes, imgSize.width, imgSize.height);
+    const boundingBoxes = convertToPixelCoordinates(
+        predictedBoxes,
+        imgSize.width,
+        imgSize.height
+    );
 
     function isBoxCompletelyCovered(box, otherBox) {
         return (
@@ -116,6 +119,7 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
     
     }, [translate, predictedBoxes]); 
 
+
     // Update ukuran crop box jika nilai cropWidth / cropHeight berubah
     useEffect(() => {
         if (!cropperRef.current) return;
@@ -144,6 +148,8 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
             width: selectedBox.width,
             height: selectedBox.height,
         });
+
+        console.log("Translate: ", translate.x, translate.y);
     }, [selectedBox]);
 
     return (

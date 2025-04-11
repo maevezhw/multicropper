@@ -7,24 +7,33 @@ from torchvision.ops import box_convert
 import supervision as sv
 from GroundingDINO.groundingdino.util.inference import load_model, load_image, predict
 from fastapi.middleware.cors import CORSMiddleware
+import psutil
 
 app = FastAPI()
 
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Ganti dengan URL frontend kamu
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Atau tentukan metode yang diizinkan, seperti ["GET", "POST"]
-    allow_headers=["*"],  # Atau tentukan header yang diizinkan
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+# Function cek memory
+def print_memory_usage(tag=""):
+    process = psutil.Process(os.getpid())
+    mem = process.memory_info().rss / 1024 ** 2  # dalam MB
+    print(f"[{tag}] Memory usage: {mem:.2f} MB")
 
 # Load model
 HOME = os.getcwd()
 CONFIG_PATH = os.path.join(HOME, "GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py")
 WEIGHTS_PATH = os.path.join(HOME, "weights", "groundingdino_swint_ogc.pth")
 
+print_memory_usage("Before loading model")
 model = load_model(CONFIG_PATH, WEIGHTS_PATH, "cpu")
+print_memory_usage("After loading model")
 
 @app.post("/predict/")
 async def predict_image(file: UploadFile = File(...), prompt: str = Form(...)):
@@ -45,7 +54,7 @@ async def predict_image(file: UploadFile = File(...), prompt: str = Form(...)):
             caption=prompt,
             box_threshold=0.35,
             text_threshold=0.25,
-            device = "cpu"
+            device="cpu"
         )
 
         # Format hasil prediksi

@@ -59,7 +59,14 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                 }
             }
         }
-        setSelectedBox(boundingBoxes[index]); // Set bounding box yang dipilih
+
+        const selectedBox = boundingBoxes[index];
+        cropperRef.current.setCropBoxData({
+            left: selectedBox.left,
+            top: selectedBox.top,
+            width: selectedBox.width,
+            height: selectedBox.height,
+        });
         console.log("Selected Box:", index, boundingBoxes[index]);
     };
 
@@ -166,23 +173,21 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                 });
     
                 // Tunggu agar CropBox benar-benar terupdate
-                await new Promise((resolve) => setTimeout(resolve, 100));
-    
+                await new Promise((resolve) => setTimeout(resolve, 150));
+                
+                cropperRef.current.crop(); 
+
+                console.log(cropperRef.current.getCropBoxData());
                 // Ambil hasil crop
                 const croppedCanvas = cropperRef.current.getCroppedCanvas();
+
                 if (!croppedCanvas) continue;
     
-                croppedCanvas.toBlob((blob) => {
-                    newCroppedImages.push(blob);
-    
-                    // Jika sudah semua, update state
-                    if (newCroppedImages.length === boundingBoxes.length) {
-                        setCroppedImages((prev) => [...prev, ...newCroppedImages]);
-                    }
-                }, "image/png");
-
-                console.log("Last Cropped Images:", newCroppedImages);
+                const blob = await new Promise((resolve) => croppedCanvas.toBlob(resolve, "image/png"));
+                if (blob) newCroppedImages.push(blob);
             }
+
+            setCroppedImages((prev) => [...prev, ...newCroppedImages]);
         };
     
         processCrops(); 
@@ -196,26 +201,26 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                 <>
                     <h2 className="text-2xl font-semibold text-accentBlue mb-3">Resize Crop Box</h2>
                     <div id="cropper-setting-size" className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-    <div className="flex flex-row md:flex-row items-center w-full">
-        <label className="text-gray-600 text-lg font-normal mb-1 w-1/3 md:w-1/4">Width</label>
-        <input
-            placeholder="Width"
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-2/3 md:w-3/4" 
-            value={localSize.width}
-            onChange={handleWidthChange}
-        />
-    </div>
+                        <div className="flex flex-row md:flex-row items-center w-full">
+                            <label className="text-gray-600 text-lg font-normal mb-1 w-1/3 md:w-1/4">Width</label>
+                            <input
+                                placeholder="Width"
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-2/3 md:w-3/4" 
+                                value={localSize.width}
+                                onChange={handleWidthChange}
+                            />
+                        </div>
 
-    <div className="flex flex-row md:flex-row items-center w-full">
-        <label className="text-gray-600 text-lg font-normal mb-1 w-1/3 md:w-1/4">Height</label>
-        <input 
-            placeholder="Height"
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-2/3 md:w-3/4" 
-            value={localSize.height}
-            onChange={handleHeightChange}
-        />
-    </div>
-</div>
+                        <div className="flex flex-row md:flex-row items-center w-full">
+                            <label className="text-gray-600 text-lg font-normal mb-1 w-1/3 md:w-1/4">Height</label>
+                            <input 
+                                placeholder="Height"
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-2/3 md:w-3/4" 
+                                value={localSize.height}
+                                onChange={handleHeightChange}
+                            />
+                        </div>
+                    </div>
 
 
                     <AspectRatioSelector setAspectRatio={setAspectRatio} />
