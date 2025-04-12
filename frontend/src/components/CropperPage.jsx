@@ -64,78 +64,111 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
     }
 
     return (
-        <div id = "cropper-main-container" className="flex items-center justify-between h-screen w-screen max-w-6xl mx-auto gap-6">
+        <div
+          id="cropper-main-container"
+          className="flex flex-col-reverse md:flex-row items-center justify-between min-h-screen w-full max-w-6xl mx-auto gap-6 px-4 py-6"
+        >
           <ConfirmBeforeUnload />
-          {image && 
-          <ImageCropper 
-            image={image} 
-            cropperRef = {cropperRef} 
-            cropSize = {cropSize}
-            setCropSize = {setCropSize}
-            aspectRatio={aspectRatio} 
-            activeTab={activeTab} 
-            predictedBoxes={predictedBoxes} 
-            // boundingBoxes={boundingBoxes}
-            setBoundingBoxes={setBoundingBoxes} 
-            selectedBox={selectedBox}
-            setSelectedBox={setSelectedBox}/>
-        }
-          
-          <div id = "cropper-setting" className="mt-5 w-1/2 max-h-[600px] flex flex-col items-center">
-                <div id = "cropper-choices" className="w-full flex flex-row">
-                    <button 
-                        id = "manual-crop" 
-                        className={`w-1/2 rounded-tl-xl  border-gray-200 border-t-1 border-l-1 px-4 py-2  font-semibold hover:text-textDark transition
-                            ${activeTab === "manual-crop" ? " text-textDark border-r-1 bg-white" : " text-gray-400 border-b-1 bg-gray-100"}`}
-                        onClick={() => setActiveTab("manual-crop")}
-                    >
-                        Manual Crop
-                    </button>
-                    <button 
-                        id = "ai-crop" 
-                        className={`w-1/2 rounded-tr-xl  border-gray-200 border-t-1 border-r-1 px-4 py-2  font-semibold hover:text-textDark transition
-                            ${activeTab === "ai-crop" ? " text-textDark border-l-1 bg-white" : " text-gray-400 border-b-1 bg-gray-100"}`}
-                        onClick={() => setActiveTab("ai-crop")}
-                    >
-                        Use AI
-                    </button>
-                </div>
-
-                <CropperSetting
-                    image = {imageFile}
-                    cropperRef={cropperRef}
-                    croppedImages={croppedImages}
-                    setCroppedImages={setCroppedImages}
-                    cropSize={cropSize}
-                    setCropSize={setCropSize}
-                    setAspectRatio={setAspectRatio}
-                    activeTab={activeTab}
-                    setPredictedBoxes={setPredictedBoxes}
-                    boundingBoxes={boundingBoxes}
-                    setBoundingBoxes={setBoundingBoxes}
-                    croppedNames={croppedNames}
-                    setCroppedNames={setCroppedNames}
-                    setIsProcessing={setIsProcessing}
-                    setError={setError}
-                    setSelectedBox={setSelectedBox}
-                />
-
-                <div id = "cropper-button" className="w-full flex flex-col gap-2 mt-5 pr-5">
-                    { activeTab === "manual-crop" && 
-                    <button id = "add-crop" onClick={handleAddCrop} className="w-full px-4 py-6 bg-white/60 backdrop-blur-lg text-textDark font-semibold rounded hover:text-accentBlue hover:font-semibold transition border-1 border-gray-300 cursor-pointer shadow-md">
-                        Add Crop
-                    </button> }
-                    <button id = "finish-crop" onClick = {processFinishCrop} className="mt-2 w-full px-4 py-6 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition cursor-pointer shadow-md">
-                        Finish
-                    </button>
-                </div>
-
+      
+          {/* Setting Panel */}
+          <div
+            id="cropper-setting"
+            className="w-full md:w-1/2 max-h-[600px] flex flex-col items-center"
+          >
+            <div id="cropper-choices" className="w-full flex">
+              <button
+                id="manual-crop"
+                className={`w-1/2 rounded-tl-xl border-gray-200 border-t border-l px-4 py-2 font-semibold hover:text-textDark transition ${
+                  activeTab === "manual-crop"
+                    ? "text-textDark border-r bg-white"
+                    : "text-gray-400 border-b bg-gray-100"
+                }`}
+                onClick={() => setActiveTab("manual-crop")}
+              >
+                Manual Crop
+              </button>
+              <button
+                id="ai-crop"
+                className={`w-1/2 rounded-tr-xl border-gray-200 border-t border-r px-4 py-2 font-semibold hover:text-textDark transition ${
+                  activeTab === "ai-crop"
+                    ? "text-textDark border-l bg-white"
+                    : "text-gray-400 border-b bg-gray-100"
+                }`}
+                onClick={() => setActiveTab("ai-crop")}
+              >
+                Use AI
+              </button>
             </div>
-
-            {isProcessing && <LoadingModal isOpen={isProcessing} />}
-            {error && <ErrorModal isOpen={error} message="You haven't cropped any part of the image yet. Please crop before downloading." onClose={() => setError(false)} />}
+      
+            <CropperSetting
+              image={imageFile}
+              cropperRef={cropperRef}
+              croppedImages={croppedImages}
+              setCroppedImages={setCroppedImages}
+              cropSize={cropSize}
+              setCropSize={setCropSize}
+              setAspectRatio={setAspectRatio}
+              activeTab={activeTab}
+              setPredictedBoxes={setPredictedBoxes}
+              boundingBoxes={boundingBoxes}
+              setBoundingBoxes={setBoundingBoxes}
+              croppedNames={croppedNames}
+              setCroppedNames={setCroppedNames}
+              setIsProcessing={setIsProcessing}
+              setError={setError}
+              setSelectedBox={setSelectedBox}
+            />
+      
+            {/* Buttons */}
+            <div id="cropper-button" className="w-full flex flex-col gap-2 mt-5">
+              {activeTab === "manual-crop" && (
+                <button
+                  id="add-crop"
+                  onClick={handleAddCrop}
+                  className="w-full px-4 py-4 bg-white/60 backdrop-blur-lg text-textDark font-semibold rounded hover:text-accentBlue transition border border-gray-300 cursor-pointer shadow-md"
+                >
+                  Add Crop
+                </button>
+              )}
+              <button
+                id="finish-crop"
+                onClick={processFinishCrop}
+                className="w-full px-4 py-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition cursor-pointer shadow-md"
+              >
+                Finish
+              </button>
+            </div>
+          </div>
+      
+          {/* Cropper */}
+          {image && (
+            <div className="w-full md:w-1/2 flex items-center justify-center">
+              <ImageCropper
+                image={image}
+                cropperRef={cropperRef}
+                cropSize={cropSize}
+                setCropSize={setCropSize}
+                aspectRatio={aspectRatio}
+                activeTab={activeTab}
+                predictedBoxes={predictedBoxes}
+                setBoundingBoxes={setBoundingBoxes}
+                selectedBox={selectedBox}
+                setSelectedBox={setSelectedBox}
+              />
+            </div>
+          )}
+      
+          {/* Modals */}
+          {isProcessing && <LoadingModal isOpen={isProcessing} />}
+          {error && (
+            <ErrorModal
+              isOpen={error}
+              message="You haven't cropped any part of the image yet. Please crop before downloading."
+              onClose={() => setError(false)}
+            />
+          )}
         </div>
-    );
+      );      
 };
 
 export default CropperPage;

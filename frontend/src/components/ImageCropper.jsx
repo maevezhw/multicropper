@@ -153,41 +153,48 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
     }, [selectedBox]);
 
     return (
-        <div id="cropper-image-container" className="text-center mt-5 block max-w-1/2 max-h-[600px] mx-auto relative">
+        <div id="cropper-image-container" className="text-center mt-5 block max-w-full sm:max-w-1/2 max-h-[600px] mx-auto relative">
             <img 
                 ref={imageRef} 
                 src={image} 
                 alt="To Crop" 
                 className="block max-w-full h-auto bg-white z-0"
             />
-
+    
             {activeTab === "ai-crop" && imgSize.width > 0 && imgSize.height > 0 && 
-                    <div className="absolute top-0 left-1/2 mx-auto pointer-events-none" style={{ width: imgSize.width, height: imgSize.height, transform: "translateX(-50%)"}}>
-                        {boundingBoxes.map((box, index) => {
-                            const isCovered = boundingBoxes.some((otherBox, otherIndex) => 
-                                otherIndex !== index && isBoxCompletelyCovered(box, otherBox)
-                            );
-
-                            return (
-                                <div
-                                    key={index}
-                                    onClick={() => handleClick(index)}
-                                    className="absolute border-2 border-red-500 cursor-pointer"
-                                    style={{
-                                        left: `${box.left}px`,
-                                        top: `${box.top}px`,
-                                        width: `${box.width}px`,
-                                        height: `${box.height}px`,
-                                        zIndex: isCovered ? 5 : 10,
-                                        pointerEvents: "auto" // Kalau ketutupan total, bisa klik yang di bawahnya
-                                    }}
-                                />
-                            );
-                        })}
-                    </div>
-                }
+                <div className="absolute top-0 left-1/2 mx-auto pointer-events-none" 
+                    style={{
+                        width: imgSize.width, 
+                        height: imgSize.height, 
+                        transform: "translateX(-50%)"
+                    }}
+                >
+                    {boundingBoxes.map((box, index) => {
+                        const isCovered = boundingBoxes.some((otherBox, otherIndex) => 
+                            otherIndex !== index && isBoxCompletelyCovered(box, otherBox)
+                        );
+    
+                        return (
+                            <div
+                                key={index}
+                                onClick={() => handleClick(index)}
+                                className="absolute border-2 border-red-500 cursor-pointer"
+                                style={{
+                                    left: `${box.left}px`,
+                                    top: `${box.top}px`,
+                                    width: `${box.width}px`,
+                                    height: `${box.height}px`,
+                                    zIndex: isCovered ? 5 : 10,
+                                    pointerEvents: "auto" // Jika tertutup, klik bisa ke box bawah
+                                }}
+                            />
+                        );
+                    })}
+                </div>
+            }
         </div>
     );
+    
 };
 
 export default ImageCropper;

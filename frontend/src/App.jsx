@@ -32,7 +32,7 @@ function AppContent({ image, setImage, imageFile, setImageFile, croppedImages, s
       <Routes>
         <Route path="/" element={<LandingPage setImage={setImage} setImageFile={setImageFile}/>} />
         <Route path="/crop" element={<CropperPage image={image} imageFile={imageFile} croppedImages={croppedImages} setCroppedImages={setCroppedImages} croppedNames={croppedNames} setCroppedNames={setCroppedNames}/>} />
-        <Route path="/download" element={<DownloadPage croppedImages={croppedImages} croppedNames={croppedNames}/>} />
+        <Route path="/download" element={<DownloadPage croppedImages={croppedImages} setCroppedImages={setCroppedImages} croppedNames={croppedNames} setCroppedNames={setCroppedNames}/>} />
       </Routes>
     </div>
   );
