@@ -8,6 +8,9 @@ import supervision as sv
 from GroundingDINO.groundingdino.util.inference import load_model, load_image, predict
 from fastapi.middleware.cors import CORSMiddleware
 import psutil
+import urllib.request
+import transformers
+transformers.logging.set_verbosity_error()
 
 app = FastAPI()
 
@@ -29,7 +32,20 @@ def print_memory_usage(tag=""):
 # Load model
 HOME = os.getcwd()
 CONFIG_PATH = os.path.join(HOME, "GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py")
-WEIGHTS_PATH = os.path.join(HOME, "weights", "groundingdino_swint_ogc.pth")
+
+WEIGHTS_DIR = os.path.join(HOME, "weights")
+WEIGHTS_PATH = os.path.join(WEIGHTS_DIR, "groundingdino_swint_ogc.pth")
+WEIGHTS_URL = "https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth"
+
+os.makedirs(WEIGHTS_DIR, exist_ok=True)
+
+if not os.path.exists(WEIGHTS_PATH):
+    print("Downloading weights...")
+    urllib.request.urlretrieve(WEIGHTS_URL, WEIGHTS_PATH)
+    print("Download complete.")
+else:
+    print("Weights already downloaded.")
+
 
 print_memory_usage("Before loading model")
 model = load_model(CONFIG_PATH, WEIGHTS_PATH, "cpu")
