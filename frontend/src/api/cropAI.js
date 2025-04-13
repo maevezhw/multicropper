@@ -5,7 +5,7 @@ const fetchPrediction = async (image, prompt) => {
     formData.append("prompt", processed_prompt);
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/predict/", {
+        const response = await fetch("https://backend-multicropper-531257777288.us-central1.run.app/predict/", {
             method: "POST",
             body: formData,
         });

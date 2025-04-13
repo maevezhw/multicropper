@@ -10,6 +10,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import psutil
 import urllib.request
 import transformers
+import time
+
+start_time = time.time()
 transformers.logging.set_verbosity_error()
 
 app = FastAPI()
@@ -83,3 +86,5 @@ async def predict_image(file: UploadFile = File(...), prompt: str = Form(...)):
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+print(f"Startup complete in {time.time() - start_time:.2f} seconds")

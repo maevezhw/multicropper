@@ -10,6 +10,7 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
     const [editingIndex, setEditingIndex] = useState(null);
     const [editedNames, setEditedNames] = useState(croppedNames);
     const [deletedIndex, setDeletedIndex] = useState([]);
+    const [renamedIndex, setRenamedIndex] = useState([]);
 
 
     // Saat `cropWidth` atau `cropHeight` berubah dari luar, update input
@@ -81,17 +82,25 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
         // setBoundingBoxes((prevBoxes) => {prevBoxes.filter((_, i) => i !== index)});
 
         setCroppedNames((prevCroppedNames) => {
-            const newNames = croppedImages.map((_, i) => 
-                i <= index ? prevCroppedNames[i] : prevCroppedNames[i - 1]
-            ).filter((_, i) => i !== index); 
+            const newNames = croppedImages.map((_, i) => {
+                if(renamedIndex.includes(i)) {
+                    return prevCroppedNames[i]
+                } else {
+                    return i <= index ? prevCroppedNames[i] : `cropped-${i}`
+                }
+            }).filter((_, i) => i !== index); 
         
             return newNames;
         });
 
         setEditedNames((prevEditedNames) => {
-            const newNames = croppedImages.map((_, i) => 
-                i <= index ? prevEditedNames[i] : prevEditedNames[i - 1]
-            ).filter((_, i) => i !== index); 
+            const newNames = croppedImages.map((_, i) => {
+                if(renamedIndex.includes(i)) {
+                    return prevEditedNames[i]
+                } else {
+                    return i <= index ? prevEditedNames[i] : `cropped-${i}`
+                }
+            }).filter((_, i) => i !== index); 
         
             return newNames;
         });
@@ -122,6 +131,7 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
             return updatedNames;
         });
         setEditingIndex(null); // Keluar dari mode edit
+        renamedIndex.push(index);
     };
     
 

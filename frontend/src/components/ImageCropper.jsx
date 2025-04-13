@@ -153,12 +153,12 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
     }, [selectedBox]);
 
     return (
-        <div id="cropper-image-container" className="text-center mt-5 block max-w-full sm:max-w-1/2 max-h-[600px] mx-auto relative">
+        <div id="cropper-image-container" className="text-center mt-5 block max-w-full max-h-[600px] mx-auto relative">
             <img 
                 ref={imageRef} 
                 src={image} 
                 alt="To Crop" 
-                className="block max-w-full h-auto bg-white z-0"
+                className="block w-full h-auto bg-white z-0"
             />
     
             {activeTab === "ai-crop" && imgSize.width > 0 && imgSize.height > 0 && 
