@@ -34,7 +34,7 @@ const LandingPage = ({ setImage, setImageFile }) => {
                 className="features flex flex-col items-center justify-center text-center snap-center bg-gradient-to-b from-bgBlue to-bgWhite w-full pb-[10vh] px-4"
             >
                 <div className="max-w-6xl w-full mx-auto reveal">
-                    <h2 className="features-title text-3xl sm:text-4xl md:text-5xl font-semibold text-accentBlue">
+                    <h2 className="features-title text-3xl sm:text-4xl md:text-5xl font-bold text-textDark">
                         Features
                     </h2>
                     <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
