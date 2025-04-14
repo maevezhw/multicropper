@@ -31,7 +31,7 @@ const LandingPage = ({ setImage, setImageFile }) => {
             {/* Features Section */}
             <section
                 id="features"
-                className="features flex flex-col items-center justify-center text-center snap-center bg-gradient-to-b from-bgWhite to-bgBlue w-full pb-[10vh] px-4"
+                className="features flex flex-col items-center justify-center text-center snap-center bg-bgWhite w-full pb-[10vh] px-4"
             >
                 <div className="max-w-6xl w-full mx-auto reveal">
                     <h2 className="features-title text-3xl sm:text-4xl md:text-5xl font-bold text-accentBlue drop-shadow-md">
