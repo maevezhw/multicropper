@@ -63,7 +63,7 @@ const LandingPage = ({ setImage, setImageFile }) => {
                         </ol>
                     </div>
                     <div className="flex justify-center items-center w-full h-full">
-                        <img src="/public/how-it-works.svg" alt="How It Works" className="w-full max-w-xs sm:max-w-sm md:max-w-md hidden md:block reveal" />
+                        <img src="/how-it-works.svg" alt="How It Works" className="w-full max-w-xs sm:max-w-sm md:max-w-md hidden md:block reveal" />
                     </div>
                 </div>
             </section>
