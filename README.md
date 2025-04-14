@@ -1,6 +1,6 @@
-# 🖼️ MultiCropper AI
+# 🖼️ MultiCropper
 
-**MultiCropper AI** is a web application that enables users to upload an image, manually add multiple crop boxes, or use AI (GroundingDINO) to automatically detect objects for cropping. It streamlines the image cropping process, especially for catalogs, thumbnails, and dataset preparation.
+**MultiCropper** is a web application that enables users to upload an image, manually add multiple crop boxes, or use AI (GroundingDINO) to automatically detect objects for cropping. It streamlines the image cropping process, especially for catalogs, thumbnails, and dataset preparation.
 
 You can try the website here at [https://multicropper.vercel.app/](https://multicropper.vercel.app/)
 
@@ -12,7 +12,7 @@ You can try the website here at [https://multicropper.vercel.app/](https://multi
 Cropping images manually is tedious and inefficient, particularly when working with multiple objects or batch processing for product catalogs or machine learning datasets.
 
 ### 💡 Solution Overview  
-MultiCropper AI provides an intuitive interface for manual and automatic image cropping, powered by GroundingDINO for object detection. Users can quickly generate high-quality cropped images with minimal effort.
+MultiCropper provides an intuitive interface for manual and automatic image cropping, powered by GroundingDINO for object detection. Users can quickly generate high-quality cropped images with minimal effort.
 
 ### 🧠 Key Features
 
