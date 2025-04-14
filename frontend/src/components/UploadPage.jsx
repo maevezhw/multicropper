@@ -45,7 +45,7 @@ const UploadPage = ({ setImage, setImageFile }) => {
     return (
         <section
             id="upload"
-            className="upload min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-bgBlue flex-col snap-center px-4 text-center"
+            className="upload min-h-screen flex items-center justify-center bg-gradient-to-b from-bgBlue to-bgWhite flex-col snap-center px-4 text-center"
         >
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4">
                 <span className="text-textDark">Multi</span>

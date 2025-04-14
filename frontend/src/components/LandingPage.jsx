@@ -31,13 +31,13 @@ const LandingPage = ({ setImage, setImageFile }) => {
             {/* Features Section */}
             <section
                 id="features"
-                className="features flex flex-col items-center justify-center text-center snap-center bg-gradient-to-b from-bgBlue to-bgWhite w-full pb-[10vh] px-4"
+                className="features flex flex-col items-center justify-center text-center snap-center bg-gradient-to-b from-bgWhite to-bgBlue w-full pb-[10vh] px-4"
             >
                 <div className="max-w-6xl w-full mx-auto reveal">
-                    <h2 className="features-title text-3xl sm:text-4xl md:text-5xl font-bold text-textDark">
+                    <h2 className="features-title text-3xl sm:text-4xl md:text-5xl font-bold text-accentBlue drop-shadow-md">
                         Features
                     </h2>
-                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+                    <div className="mt-13 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         <FeatureCard icon={<FaCropAlt />} title="Multiple Crops" description="Select multiple areas from a single image effortlessly." />
                         <FeatureCard icon={<FaMagic />} title="AI Detection" description="Utilize AI to detect and crop objects based on your prompt." />
                         <FeatureCard icon={<FaDownload />} title="Customizable Cropping" description="Modify crop boxes by adjusting width, height, aspect ratio, and position." />
@@ -48,7 +48,7 @@ const LandingPage = ({ setImage, setImageFile }) => {
             {/* How It Works */}
             <section
                 id="how-it-works"
-                className="how-it-works snap-center w-full min-h-screen bg-bgWhite flex items-center justify-center px-4 py-12"
+                className="how-it-works snap-center w-full min-h-screen bg-gradient-to-b from-bgBlue to-bgWhite flex items-center justify-center px-4 py-12"
             >
                 <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[60%_40%] gap-10 items-center">
                     <div className="rounded-2xl bg-accentBlue py-10 px-6 sm:px-10 reveal">
