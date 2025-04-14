@@ -178,7 +178,7 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
                             <div
                                 key={index}
                                 onClick={() => handleClick(index)}
-                                className="absolute border-2 border-red-500 cursor-pointer"
+                                className="absolute border-2 border-bgRed500 cursor-pointer"
                                 style={{
                                     left: `${box.left}px`,
                                     top: `${box.top}px`,

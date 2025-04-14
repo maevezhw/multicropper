@@ -259,7 +259,7 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                         <div className="max-w-[100px] max-h-[100px] relative mb-5">
                             <button
                                 onClick={() => handleClose(index)} 
-                                className="rounded-full absolute top-0 right-0 w-5 h-5 flex items-center justify-center bg-gray-200 hover:bg-gray-300 transition"
+                                className="rounded-full absolute top-0 right-0 w-5 h-5 flex items-center justify-center bg-bgGrey200 hover:bg-bgGrey300 transition"
                             >
                                 <XMarkIcon className="w-3 h-3 text-gray-600" />
                             </button>
