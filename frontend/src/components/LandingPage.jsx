@@ -48,7 +48,7 @@ const LandingPage = ({ setImage, setImageFile }) => {
             {/* How It Works */}
             <section
                 id="how-it-works"
-                className="how-it-works snap-center w-full min-h-screen bg-gradient-to-b from-bgBlue to-bgWhite flex items-center justify-center px-4 py-12"
+                className="how-it-works snap-center w-full min-h-screen bg-gradient-to-b from-bgWhite to-bgBlue flex items-center justify-center px-4 py-12"
             >
                 <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[60%_40%] gap-10 items-center">
                     <div className="rounded-2xl bg-accentBlue py-10 px-6 sm:px-10 reveal">
