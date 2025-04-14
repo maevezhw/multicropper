@@ -133,7 +133,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
               <button
                 id="finish-crop"
                 onClick={processFinishCrop}
-                className="w-full px-4 py-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition cursor-pointer shadow-md"
+                className="w-full px-4 py-4 bg-accentBlue text-white font-semibold rounded transition cursor-pointer shadow-md"
               >
                 Finish
               </button>
