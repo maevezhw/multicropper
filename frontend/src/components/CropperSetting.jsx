@@ -241,7 +241,7 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                         <form onSubmit={handlePromptSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-3 items-center cursor-pointer">
                             <input
                                 type="text"
-                                placeholder="Enter prompt"
+                                placeholder="e.g. dog, cat, etc. (separated by commas)"
                                 value={prompt}
                                 onChange={handlePromptChange}
                                 className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-3/4" 
