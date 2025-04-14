@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from './components/Navbar';
-import UploadPage from './components/UploadPage';
 import CropperPage from './components/CropperPage';
 import DownloadPage from './components/DownloadPage';
 import LandingPage from './components/LandingPage';

@@ -13,21 +13,17 @@ const DownloadPage = ({ croppedImages, setCroppedImages, croppedNames, setCroppe
     useEffect(() => {
         const fromCrop = sessionStorage.getItem("fromCrop");
 
-        // Kalau akses langsung tanpa dari Crop, redirect ke UploadPage
         if (!fromCrop) {
             navigate("/", { replace: true });
             return;
         }
 
-        // Ganti history agar tombol Back tidak kembali ke CropPage
         window.history.replaceState(null, "", "/download");
 
-        // Hapus tanda "fromCrop" setelah beberapa saat agar tidak langsung ke "/"
         setTimeout(() => {
             sessionStorage.removeItem("fromCrop");
-        }, 500); // Delay 500ms agar tidak langsung balik
+        }, 500); 
 
-        // Saat user klik tombol Back, langsung ke UploadPage
         const handlePopState = () => {
             navigate("/", { replace: true });
         };
@@ -40,26 +36,23 @@ const DownloadPage = ({ croppedImages, setCroppedImages, croppedNames, setCroppe
     }, [navigate]);
 
 
-    // Fungsi untuk mengunduh ZIP
     const downloadZip = async () => {
         setIsProcessing(true);
         const zip = new JSZip();
 
-        // Tambahkan setiap hasil crop ke dalam ZIP
         croppedImages.forEach((blob, index) => {
             zip.file(`${croppedNames[index]}.jpeg`, blob);
         });
 
-        // Generate ZIP dan unduh
         const zipBlob = await zip.generateAsync({ type: "blob" });
         saveAs(zipBlob, "cropped_images.zip");
         setIsProcessing(false);
     };
 
     const handleRestart = () => {
-        setCroppedImages([]); // Kosongkan hasil crop
-        setCroppedNames([]); // Kosongkan nama hasil crop
-        navigate("/"); // Kembali ke halaman upload
+        setCroppedImages([]); 
+        setCroppedNames([]); 
+        navigate("/");
 
     }
 

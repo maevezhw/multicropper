@@ -12,8 +12,6 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
     const [deletedIndex, setDeletedIndex] = useState([]);
     const [renamedIndex, setRenamedIndex] = useState([]);
 
-
-    // Saat `cropWidth` atau `cropHeight` berubah dari luar, update input
     useEffect(() => {
         setLocalSize({
             width: Math.round(cropSize.width),
@@ -21,8 +19,6 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
         });
     }, [cropSize]);
     
-
-    // Saat user mengetik angka baru, update global state
     const handleWidthChange = (e) => {
         const newWidth = Number(e.target.value);
         setLocalSize((prev) => ({ ...prev, width: newWidth }));
@@ -79,8 +75,6 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
         setCroppedImages(newImages);
         setImageURLs(newUrls);
 
-        // setBoundingBoxes((prevBoxes) => {prevBoxes.filter((_, i) => i !== index)});
-
         setCroppedNames((prevCroppedNames) => {
             const newNames = croppedImages.map((_, i) => {
                 if(renamedIndex.includes(i)) {
@@ -119,18 +113,18 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
     
     const handleSave = (index) => {
         setCroppedNames((prevNames) => {
-            const updatedNames = [...prevNames]; // Copy state lama
+            const updatedNames = [...prevNames]; 
 
             console.log("Updated Names:", editedNames[index]);
             if (editedNames[index] === undefined) {
-                updatedNames[index] = `cropped-${index + 1}`; // Reset ke default jika kosong
+                updatedNames[index] = `cropped-${index + 1}`; 
             } else {
                 updatedNames[index] = editedNames[index];
-            } // Hanya update 1 index
+            } 
 
             return updatedNames;
         });
-        setEditingIndex(null); // Keluar dari mode edit
+        setEditingIndex(null); 
         renamedIndex.push(index);
     };
     
@@ -174,7 +168,6 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                 const box = boundingBoxes[i];
                 console.log("Box:", box);
     
-                // Update ukuran CropBox
                 cropperRef.current.setCropBoxData({
                     left: box.left,
                     top: box.top,
@@ -182,13 +175,12 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                     height: box.height,
                 });
     
-                // Tunggu agar CropBox benar-benar terupdate
                 await new Promise((resolve) => setTimeout(resolve, 150));
                 
                 cropperRef.current.crop(); 
 
                 console.log(cropperRef.current.getCropBoxData());
-                // Ambil hasil crop
+ 
                 const croppedCanvas = cropperRef.current.getCroppedCanvas();
 
                 if (!croppedCanvas) continue;
@@ -202,7 +194,7 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
     
         processCrops(); 
     
-    }, [boundingBoxes]); // Akan jalan ketika cropperRefs di-update
+    }, [boundingBoxes]); 
     
 
     return (
@@ -276,11 +268,11 @@ const CropperSetting = ({ image, cropperRef, croppedImages, setCroppedImages, cr
                                         type="text"
                                         value={editedNames[index]}
                                         onChange={(e) => handleNameChange(index, e.target.value)}
-                                        onBlur={() => handleSave(index)} // Simpan saat kehilangan fokus
+                                        onBlur={() => handleSave(index)} 
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") {
-                                                e.preventDefault(); // Mencegah line break
-                                                handleSave(index); // Simpan input saat Enter ditekan
+                                                e.preventDefault(); 
+                                                handleSave(index); 
                                             }
                                         }}
                                         className="border-b border-gray-400 outline-none w-2/3 bg-transparent text-black text-xs"

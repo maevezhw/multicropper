@@ -21,24 +21,23 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
     useEffect(() => {
         setCroppedImages([]);
         setCroppedNames([]);
-    }, []); // Dependency array kosong agar hanya jalan sekali    
+    }, []);   
 
     useEffect(() => {
         const fromUpload = sessionStorage.getItem("fromUpload");
 
         if (!fromUpload) {
-            navigate("/", { replace: true }); // Redirect ke UploadPage kalau akses langsung
+            navigate("/", { replace: true }); 
         }
 
     }, [navigate]);
 
     useEffect(() => {
         if (!image) {
-            navigate("/", { replace: true }); // Redirect ke UploadPage kalau tidak ada gambar
+            navigate("/", { replace: true }); 
         }
     }, [image]);
     
-    // Fungsi untuk menambahkan hasil crop ke state
     const handleAddCrop = () => {
         if (!cropperRef.current) return;
 
@@ -46,7 +45,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
         if (!croppedCanvas) return;
 
         croppedCanvas.toBlob((blob) => {
-            setCroppedImages((prev) => [...prev, blob]); // Simpan hasil crop sebagai Blob
+            setCroppedImages((prev) => [...prev, blob]); 
         }, "image/jpeg");
     };
 
@@ -56,7 +55,7 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
             return;
         }
         setTimeout(() => {
-            sessionStorage.setItem("fromCrop", "true"); // Tandai user datang dari CropPage
+            sessionStorage.setItem("fromCrop", "true"); 
             navigate("/download");
         }, 100);
 
@@ -70,7 +69,6 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
         >
           <ConfirmBeforeUnload />
       
-          {/* Setting Panel */}
           <div
             id="cropper-setting"
             className="w-full md:w-1/2 max-h-[600px] flex flex-col items-center"
@@ -119,7 +117,6 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
               setSelectedBox={setSelectedBox}
             />
       
-            {/* Buttons */}
             <div id="cropper-button" className="w-full flex flex-col gap-2 mt-5">
               {activeTab === "manual-crop" && (
                 <button
@@ -140,7 +137,6 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
             </div>
           </div>
       
-          {/* Cropper */}
           {image && (
             <div className="w-full md:w-1/2 flex items-center justify-center">
               <ImageCropper
@@ -158,7 +154,6 @@ const CropperPage = ({ image, imageFile, croppedImages, setCroppedImages, croppe
             </div>
           )}
       
-          {/* Modals */}
           {isProcessing && <LoadingModal isOpen={isProcessing} />}
           {error && (
             <ErrorModal

@@ -1,13 +1,10 @@
-import { useState, useEffect, use } from "react";
-// import { Button } from "@/components/ui/button";
-import { FaUpload, FaCropAlt, FaDownload, FaMagic } from "react-icons/fa";
+import { useEffect} from "react";
+import { FaCropAlt, FaDownload, FaMagic } from "react-icons/fa";
 import UploadPage from "./UploadPage";
 import ScrollReveal from "scrollreveal";
-import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 
 const LandingPage = ({ setImage, setImageFile }) => {
-    const navigate = useNavigate();
 
     useEffect(() => {
         ScrollReveal().reveal(".reveal", {
@@ -18,11 +15,7 @@ const LandingPage = ({ setImage, setImageFile }) => {
           easing: "ease-in-out",
           reset: true, 
         });
-      }, []);
-
-      const handleCTA = () => {
-        navigate("/upload"); // Beri jeda biar state sempat di-update
-    }
+    }, []);
 
     return (
         <div className="bg-blue-50 text-gray-900 min-h-screen">

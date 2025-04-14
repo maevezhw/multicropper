@@ -3,14 +3,13 @@ import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 
 const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, activeTab, predictedBoxes, setBoundingBoxes, selectedBox, setSelectedBox }) => {
-    const imageRef = useRef(null); // Referensi ke elemen <img>
+    const imageRef = useRef(null); 
     const cropBoxDataRef = useRef(null);
     const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
     const [translate, setTranslate] = useState({ x: 0, y: 0 });
 
-    // Fungsi untuk mendeteksi klik di dalam bounding box
     const handleClick = (index) => {
-        setSelectedBox(boundingBoxes[index]); // Set bounding box yang dipilih
+        setSelectedBox(boundingBoxes[index]); 
         console.log("Selected Box:", boundingBoxes[index]);
     };
 
@@ -19,8 +18,8 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
 
         return boxes.map(item => {
             return {
-                left: (item.box[0]* imgWidth - 0.5 * (item.box[2] * imgWidth)), // Skala ke piksel
-                top: (item.box[1] * imgHeight - 0.5 * (item.box[3] * imgHeight)), // Skala ke piksel
+                left: (item.box[0]* imgWidth - 0.5 * (item.box[2] * imgWidth)), 
+                top: (item.box[1] * imgHeight - 0.5 * (item.box[3] * imgHeight)), 
                 width: item.box[2] * imgWidth,
                 height: item.box[3] * imgHeight
             };
@@ -42,7 +41,6 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
         );
     }    
 
-    // Efek ini jalan setiap kali 'image' berubah atau 'activeTab' berubah
     useEffect(() => {
         if (!imageRef.current) return;
 
@@ -66,7 +64,7 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
                 const {width, height} = cropperRef.current.getCropBoxData();
                 setCropSize(prev => {
                     if (prev.width === width && prev.height === height) {
-                        return prev; // Tidak update state jika ukuran sama
+                        return prev; 
                     }
                     return { width, height };
                 });
@@ -81,7 +79,6 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
                 if (canvasEl) {
                     const transformValue = getComputedStyle(canvasEl).transform;
                     
-                    // Ubah dari matrix() ke translateX
                     const matrixValues = transformValue.match(/matrix\(([^)]+)\)/);
                     if (matrixValues) {
                         const values = matrixValues[1].split(', ');
@@ -115,12 +112,10 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
             height: box.height,
         }));
         console.log("Adjusted Boxes:", adjustedBoxes);
-        setBoundingBoxes(adjustedBoxes); // Update state dengan bounding box yang sudah dikoreksi
+        setBoundingBoxes(adjustedBoxes); 
     
     }, [translate, predictedBoxes]); 
 
-
-    // Update ukuran crop box jika nilai cropWidth / cropHeight berubah
     useEffect(() => {
         if (!cropperRef.current) return;
 
@@ -130,7 +125,6 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
         });
     }, [cropSize]);
 
-    // Update aspect ratio ketika berubah
     useEffect(() => {
         if (!cropperRef.current) return;
 
@@ -185,7 +179,7 @@ const ImageCropper = ({ image, cropperRef, cropSize, setCropSize, aspectRatio, a
                                     width: `${box.width}px`,
                                     height: `${box.height}px`,
                                     zIndex: isCovered ? 5 : 10,
-                                    pointerEvents: "auto" // Jika tertutup, klik bisa ke box bawah
+                                    pointerEvents: "auto" 
                                 }}
                             />
                         );

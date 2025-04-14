@@ -14,7 +14,7 @@ const ConfirmBeforeUnload = () => {
         };
     }, []);
 
-    return null; // Komponen ini tidak perlu render apa pun
+    return null;
 };
 
 export default ConfirmBeforeUnload;

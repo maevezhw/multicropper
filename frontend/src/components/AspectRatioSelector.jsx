@@ -10,9 +10,9 @@ const AspectRatioSelector = ({ setAspectRatio }) => {
         setSelectedAspectRatio(value);
 
         if (value === "Custom") {
-            setAspectRatio(null); // Jangan atur aspek rasio kalau custom
+            setAspectRatio(null); 
         } else if (value === "FreeForm") {
-            setAspectRatio(null); // Jangan atur aspek rasio kalau custom
+            setAspectRatio(null); 
         }  else {
             const ratios = {
                 "1:1": 1,
@@ -40,7 +40,6 @@ const AspectRatioSelector = ({ setAspectRatio }) => {
                 <option value="Custom">Custom</option>
             </select>
 
-            {/* Tampilkan input width & height jika "Custom" dipilih */}
             {selectedAspectRatio === "Custom" && (
                 <div className="mt-3 flex gap-2 justify-center items-center">
                     <input 

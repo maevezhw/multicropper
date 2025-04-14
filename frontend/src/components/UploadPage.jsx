@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UploadPage = ({ setImage, setImageFile }) => {
     
@@ -8,11 +8,10 @@ const UploadPage = ({ setImage, setImageFile }) => {
     const [fileLoaded, setFileLoaded] = useState(false);
 
     const handleNext = () => {
-        sessionStorage.setItem("fromUpload", "true"); // Tandai user datang dari CropPage
+        sessionStorage.setItem("fromUpload", "true");
         navigate("/crop");
     };
 
-    // Konfigurasi Dropzone
     const { getRootProps, getInputProps } = useDropzone({
         accept: {"image/*": [".jpg", ".jpeg", ".png", ".webp"]},
         multiple: false,
@@ -20,7 +19,7 @@ const UploadPage = ({ setImage, setImageFile }) => {
             const file = acceptedFiles[0];
             if (!file) return;
 
-            setImageFile(file); // Simpan file
+            setImageFile(file); 
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -34,12 +33,11 @@ const UploadPage = ({ setImage, setImageFile }) => {
     useEffect(() => {
         if (fileLoaded) {
             setTimeout(() => {
-                handleNext(); // Beri jeda biar state sempat di-update
+                handleNext(); 
             }, 100);
         }
     }, [fileLoaded, navigate]);
 
-    // Gaya CSS untuk drag & drop area
     const dropzoneStyle = "flex flex-col items-center justify-center border-2 border-dashed border-gray-400 rounded-lg p-6 sm:p-10 cursor-pointer bg-white hover:bg-gray-100 transition w-full max-w-xl";
 
     return (
