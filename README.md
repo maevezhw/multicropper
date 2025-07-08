@@ -3,6 +3,7 @@
 **MultiCropper** is a web application that enables users to upload an image, manually add multiple crop boxes, or use AI (GroundingDINO) to automatically detect objects for cropping. It streamlines the image cropping process, especially for catalogs, thumbnails, and dataset preparation.
 
 You can try the website here at [https://multicropper.vercel.app/](https://multicropper.vercel.app/) 
+
 P.S. Because of the pricing limit of Google Cloud Platform, the AI feature is deactivated per Jun 2025
 
 ---
